@@ -1,0 +1,14 @@
+<table mat-table [dataSource]="dataSource" matSort>
+  <!-- Definizione delle colonne -->
+  <ng-container *ngFor="let columnName of getColumnNames()" [matColumnDef]="columnName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ columnName }} </th>
+    <td mat-cell *matCellDef="let element"> {{ element[columnName] }} </td>
+  </ng-container>
+
+  <!-- Definizione righe della tabella -->
+  <tr mat-header-row *matHeaderRowDef="getColumnNames()"></tr>
+  <tr mat-row *matRowDef="let row; columns: getColumnNames();"></tr>
+</table>
+
+<!-- Paginazione -->
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
