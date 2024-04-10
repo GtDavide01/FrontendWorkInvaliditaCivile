@@ -1,7 +1,14 @@
-table {
-  width: 100%;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-th.mat-sort-header-sorted {
-  color: black;
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.spacer {
+  height: 20px;
 }

@@ -10,12 +10,17 @@ import { HeaderComponent } from './header/header.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { FooterComponent } from './footer/footer.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
     AppComponent,
     BaseTableComponent,
     HeaderComponent,
+    FooterComponent,
 
   ],
   imports: [
@@ -25,7 +30,10 @@ import { MatSortModule } from '@angular/material/sort';
     HttpClientModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

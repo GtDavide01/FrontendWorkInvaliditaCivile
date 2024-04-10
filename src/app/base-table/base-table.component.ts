@@ -13,12 +13,12 @@ import { MatPaginator } from '@angular/material/paginator';
 export class BaseTableComponent implements OnInit {
   data: any[] = [];
   dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = [];
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
-  //costruttore nel quale inserisco il mio servizo wrapper
   constructor(private apiService: ApiService) {
-    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource = new MatTableDataSource<any>([]);
   }
 
   ngOnInit(): void {
@@ -26,36 +26,38 @@ export class BaseTableComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Collega sorting e paginazione al dataSource dopo che sono stati inizializzati
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  //funzioni
-
-  // Funzione per ottenere i nomi delle colonne dei dati
-  getColumnNames(): string[] {
-    // Verifica se ci sono dati disponibili e ottieni i nomi delle colonne dal primo elemento
-    if (this.data.length > 0) {
-      return Object.keys(this.data[0]);
-    } else {
-      return [];
-    }
-  }
   fetchData(): void {
-    const endpoint = '/posts';
-    //opzionale (specifica quali parametri passare)
-    const params = {};
+    const endpoint = 'GetLearning';
+    const params = {
+      cognome: 'Rossi',
+      id: '1'
+    };
 
-    //effettuiamo la chiamata get utilizzando il servizio wrapper
     this.apiService.get(endpoint, params).subscribe(
       (response) => {
-        this.data = response;
-        this.dataSource.data = this.data;
+        if (Array.isArray(response)) {
+          this.data = response;
+          this.dataSource.data = this.data;
+          this.displayedColumns = this.getColumnNames();
+        } else {
+          console.error('La risposta della chiamata API non è un array', response);
+        }
       },
       (error) => {
         console.error('Errore durante il recupero dei dati', error);
       }
     );
+  }
+
+  getColumnNames(): string[] {
+    if (this.data.length > 0) {
+      return Object.keys(this.data[0]);
+    } else {
+      return [];
+    }
   }
 }
