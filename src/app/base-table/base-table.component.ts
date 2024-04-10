@@ -32,19 +32,25 @@ export class BaseTableComponent implements OnInit {
 
   fetchData(): void {
     const endpoint = 'GetLearning';
-    const params = {
-      cognome: 'Rossi',
-      id: '1'
-    };
+    let id = 1;
+    let cognome = "Rossi";
 
-    this.apiService.get(endpoint, params).subscribe(
+    this.apiService.get(endpoint, id, cognome).subscribe(
       (response) => {
         if (Array.isArray(response)) {
+
           this.data = response;
           this.dataSource.data = this.data;
           this.displayedColumns = this.getColumnNames();
         } else {
-          console.error('La risposta della chiamata API non è un array', response);
+          console.error(
+            'La risposta della chiamata API non è un array',
+            response
+          );
+          // Se la risposta non è un array, pulisci i dati e reimposta la tabella
+          this.data = [];
+          this.dataSource.data = this.data;
+          this.displayedColumns = [];
         }
       },
       (error) => {

@@ -15,27 +15,26 @@ export class ApiService {
   //prende come parametri l'endpot e i parametri della chiamaya
   get(
     endpoint: string,
-    params?: { [param: string]: string | string[] }
+    params1?:  any,
+    params2?: any,
   ): Observable<any> {
     let queryParams = new HttpParams();
 
-    // Imposta eventuali parametri nella query string
-    if (params) {
-      Object.keys(params).forEach((key) => {
-        if (params[key] !== null && params[key] !== undefined) {
-          if (Array.isArray(params[key])) {
-            // Cast esplicito di params[key] a string[]
-            (params[key] as string[]).forEach((value) => {
-              queryParams = queryParams.append(key, value);
-            });
-          }
-        }
-      });
-    }
+    // // Imposta eventuali parametri nella query string
+    // if (params) {
+    //   Object.keys(params).forEach((key) => {
+    //     if (params[key] !== null && params[key] !== undefined) {
+    //       if (Array.isArray(params[key])) {
+    //         // Cast esplicito di params[key] a string[]
+    //         (params[key] as string[]).forEach((value) => {
+    //           queryParams = queryParams.append(key, value);
+    //         });
+    //       }
+    //     }
+    //   });
+    // }
 
-    return this.http.get(`${this.baseUrl}/${endpoint}`, {
-      params: queryParams,
-    });
+    return this.http.get(`${this.baseUrl}/${endpoint}?id=${params1}&cognome=${params2}`);
   }
 
   // Metodo per effettuare una chiamata POST generica
