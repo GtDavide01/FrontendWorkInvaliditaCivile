@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { FooterComponent } from './Components/footer/footer.component';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SpinnerComponent } from './Components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     BaseTableComponent,
     HeaderComponent,
     FooterComponent,
+    SpinnerComponent,
 
   ],
   imports: [
@@ -35,7 +38,8 @@ import { FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

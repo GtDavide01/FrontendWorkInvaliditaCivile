@@ -16,6 +16,7 @@ export class BaseTableComponent implements OnInit {
   displayedColumns: string[] = [];
   id: number | undefined;
   cognome: string | undefined;
+  isLoading: boolean = false;
 
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -35,6 +36,7 @@ export class BaseTableComponent implements OnInit {
   }
 
   fetchData(): void {
+    this.isLoading = false;
     const endpoint = 'GetAllLearning';
 
     this.apiService.get(endpoint, this.id, this.cognome).subscribe(
@@ -54,10 +56,12 @@ export class BaseTableComponent implements OnInit {
       },
       (error) => {
         console.error('Errore durante il recupero dei dati', error);
+        this.isLoading = true;
       }
     );
   }
   fetchDataParams(): void{
+    this.isLoading = false;
     const endpoint = 'GetLearning';
 
     this.apiService.get(endpoint, this.id, this.cognome).subscribe(
@@ -77,6 +81,7 @@ export class BaseTableComponent implements OnInit {
       },
       (error) => {
         console.error('Errore durante il recupero dei dati', error);
+        this.isLoading = true;
       }
     );
   }
