@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from '../api.service';
-import { Observable } from 'rxjs';
+import { ApiService } from '../../Services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-base-table',
@@ -14,12 +14,16 @@ export class BaseTableComponent implements OnInit {
   data: any[] = [];
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = [];
+  id: number | undefined;
+  cognome: string | undefined;
+
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   constructor(private apiService: ApiService) {
     this.dataSource = new MatTableDataSource<any>([]);
   }
+
 
   ngOnInit(): void {
     this.fetchData();
@@ -31,14 +35,11 @@ export class BaseTableComponent implements OnInit {
   }
 
   fetchData(): void {
-    const endpoint = 'GetLearning';
-    let id = 1;
-    let cognome = "Rossi";
+    const endpoint = 'GetAllLearning';
 
-    this.apiService.get(endpoint, id, cognome).subscribe(
+    this.apiService.get(endpoint, this.id, this.cognome).subscribe(
       (response) => {
         if (Array.isArray(response)) {
-
           this.data = response;
           this.dataSource.data = this.data;
           this.displayedColumns = this.getColumnNames();
@@ -48,9 +49,30 @@ export class BaseTableComponent implements OnInit {
             response
           );
           // Se la risposta non è un array, pulisci i dati e reimposta la tabella
-          this.data = [];
+          this.clearData();
+        }
+      },
+      (error) => {
+        console.error('Errore durante il recupero dei dati', error);
+      }
+    );
+  }
+  fetchDataParams(): void{
+    const endpoint = 'GetLearning';
+
+    this.apiService.get(endpoint, this.id, this.cognome).subscribe(
+      (response) => {
+        if (Array.isArray(response)) {
+          this.data = response;
           this.dataSource.data = this.data;
-          this.displayedColumns = [];
+          this.displayedColumns = this.getColumnNames();
+        } else {
+          console.error(
+            'La risposta della chiamata API non è un array',
+            response
+          );
+          // Se la risposta non è un array, pulisci i dati e reimposta la tabella
+          this.clearData();
         }
       },
       (error) => {
@@ -59,11 +81,18 @@ export class BaseTableComponent implements OnInit {
     );
   }
 
+
   getColumnNames(): string[] {
     if (this.data.length > 0) {
       return Object.keys(this.data[0]);
     } else {
       return [];
     }
+  }
+
+  clearData(): void {
+    this.data = [];
+    this.dataSource.data = this.data;
+    this.displayedColumns = [];
   }
 }
