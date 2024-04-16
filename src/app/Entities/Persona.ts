@@ -1,13 +1,10 @@
 export class Persona {
-  nome: string;
+  id: number;
   cognome: string;
-  eta: number;
 
-  constructor(nome: string, cognome: string, eta: number) {
-    this.nome = nome;
+  constructor(id: number, cognome: string) {
+    this.id = id;
     this.cognome = cognome;
-    this.eta = eta;
   }
 
-  // Metodi aggiuntivi possono essere aggiunti qui, se necessario
 }

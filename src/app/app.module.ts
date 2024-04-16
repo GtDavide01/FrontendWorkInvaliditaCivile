@@ -17,6 +17,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './Components/spinner/spinner.component';
+import { LearningComponentComponent } from './Components/learning-component/learning-component.component';
+import { MatSelectModule } from '@angular/material/select';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +28,7 @@ import { SpinnerComponent } from './Components/spinner/spinner.component';
     HeaderComponent,
     FooterComponent,
     SpinnerComponent,
-
+    LearningComponentComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,9 +42,10 @@ import { SpinnerComponent } from './Components/spinner/spinner.component';
     MatButtonModule,
     MatInputModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

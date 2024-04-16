@@ -1,0 +1,24 @@
+.containerle {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.search-button {
+  margin-left: 10px;
+}
+
+.load-button {
+  display: block;
+  margin-bottom: 20px;
+}

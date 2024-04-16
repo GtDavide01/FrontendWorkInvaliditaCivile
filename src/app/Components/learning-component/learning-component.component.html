@@ -1,0 +1,46 @@
+<div class="containerle">
+  <!-- Form per la ricerca -->
+  <div class="search-container">
+    <mat-form-field class="search-input">
+      <input matInput placeholder="ID" [(ngModel)]="id">
+    </mat-form-field>
+    <mat-form-field class="search-input">
+      <input matInput placeholder="Cognome" [(ngModel)]="cognome">
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="search-button" (click)="search()">Cerca</button>
+  </div>
+
+  <div class="search-container">
+    <mat-form-field class="search-input">
+      <input matInput placeholder="Cognome2" [(ngModel)]="cognomePag">
+    </mat-form-field>
+    <!-- Menu a discesa per l'opzione di paginazione -->
+    <mat-form-field class="search-input">
+      <mat-label>Paginazione</mat-label>
+      <mat-select [(ngModel)]="pagination">
+        <mat-option value="true">Si</mat-option>
+        <mat-option value="false">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="search-input">
+      <input matInput placeholder="Page" [(ngModel)]="page">
+    </mat-form-field>
+    <mat-form-field class="search-input">
+      <input matInput placeholder="PageSize" [(ngModel)]="pageSize">
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="search-button" (click)="searchWithPagination()">Cerca</button>
+  </div>
+
+  <!-- Bottone per caricare i dati -->
+  <button mat-raised-button color="primary" class="load-button" (click)="fetchData()">Carica Dati</button>
+
+  <!-- Spinner di caricamento -->
+  <div *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <!-- Tabella dei dati -->
+  <div *ngIf="!isLoading">
+    <app-base-table [data]="data" [page]="page" [pageSize]="pageSize" [pagination]="pagination"></app-base-table>
+  </div>
+</div>

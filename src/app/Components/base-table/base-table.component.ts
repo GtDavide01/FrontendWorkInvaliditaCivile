@@ -1,103 +1,65 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from '../../Services/api.service';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { NgModule } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-base-table',
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.scss'],
 })
-export class BaseTableComponent implements OnInit {
-  data: any[] = [];
+export class BaseTableComponent  implements OnChanges {
+  @Input() data: any[] = [];
+  @Input() pagination: boolean = false;
+  @Input() page: number = 0;
+  @Input() pageSize: number = 0;
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = [];
-  id: number | undefined;
-  cognome: string | undefined;
-  isLoading: boolean = false;
 
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private apiService: ApiService) {
+  constructor() {
     this.dataSource = new MatTableDataSource<any>([]);
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] && changes['data'].currentValue) {
+      this.dataSource.data = changes['data'].currentValue;
+      this.displayedColumns = this.getColumnNames();
+    }
 
-  ngOnInit(): void {
-    this.fetchData();
-  }
+    if (this.pagination) {
+      // Imposta il paginator solo se l'opzione di paginazione è abilitata
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
-  fetchData(): void {
-    this.isLoading = false;
-    const endpoint = 'GetAllLearning';
-
-    this.apiService.get(endpoint, this.id, this.cognome).subscribe(
-      (response) => {
-        if (Array.isArray(response)) {
-          this.data = response;
-          this.dataSource.data = this.data;
-          this.displayedColumns = this.getColumnNames();
-        } else {
-          console.error(
-            'La risposta della chiamata API non è un array',
-            response
-          );
-          // Se la risposta non è un array, pulisci i dati e reimposta la tabella
-          this.clearData();
-        }
-      },
-      (error) => {
-        console.error('Errore durante il recupero dei dati', error);
-        this.isLoading = true;
+      // Imposta manualmente i valori di pageIndex e pageSize solo se non sono stati inizializzati dall'utente
+      if (this.paginator && this.page !== undefined && this.pageSize !== undefined) {
+        this.paginator.pageIndex = this.page;
+        this.paginator.pageSize = this.pageSize;
       }
-    );
+    } else {
+      this.dataSource.paginator = null;
+      this.dataSource.sort = this.sort;
+    }
   }
-  fetchDataParams(): void{
-    this.isLoading = false;
-    const endpoint = 'GetLearning';
-
-    this.apiService.get(endpoint, this.id, this.cognome).subscribe(
-      (response) => {
-        if (Array.isArray(response)) {
-          this.data = response;
-          this.dataSource.data = this.data;
-          this.displayedColumns = this.getColumnNames();
-        } else {
-          console.error(
-            'La risposta della chiamata API non è un array',
-            response
-          );
-          // Se la risposta non è un array, pulisci i dati e reimposta la tabella
-          this.clearData();
-        }
-      },
-      (error) => {
-        console.error('Errore durante il recupero dei dati', error);
-        this.isLoading = true;
-      }
-    );
-  }
-
 
   getColumnNames(): string[] {
-    if (this.data.length > 0) {
+    if (this.data && this.data.length > 0) {
       return Object.keys(this.data[0]);
     } else {
       return [];
     }
   }
 
-  clearData(): void {
-    this.data = [];
-    this.dataSource.data = this.data;
-    this.displayedColumns = [];
+  // Metodo chiamato quando l'utente cambia pagina o dimensione della pagina
+  onPageChange(event: PageEvent) {
+    // Assegna i nuovi valori di pagina e dimensione della pagina solo se l'opzione di paginazione è abilitata
+    if (this.pagination) {
+      this.page = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
   }
 }
