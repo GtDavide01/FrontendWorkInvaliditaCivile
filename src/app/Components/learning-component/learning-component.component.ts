@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Persona } from 'src/app/Entities/Persona';
 import LearningServiceService from 'src/app/Services/learning-service.service';
 
 @Component({
@@ -11,12 +12,11 @@ export class LearningComponentComponent implements OnInit {
   data: any[] = [];
   isLoading: boolean = true;
   searchForm!: FormGroup;
-  id!: number;
-  cognome!: string;
+  persona = new Persona(0, ''); // Inizializza una nuova istanza di Persona
   cognomePag!: string;
-  pagination!: boolean;
-  page!: number;
-  pageSize!: number;
+  pagination: boolean = true;
+  page: number = 1;
+  pageSize: number = 10;
 
   constructor(private learningService: LearningServiceService) {}
 
@@ -45,9 +45,10 @@ export class LearningComponentComponent implements OnInit {
       }
     );
   }
+
   search() {
     this.isLoading = true;
-    this.learningService.getLearning(this.id, this.cognome).subscribe(
+    this.learningService.getLearning(this.persona).subscribe(
       (response) => {
         if (Array.isArray(response)) {
           this.data = response;
@@ -69,7 +70,7 @@ export class LearningComponentComponent implements OnInit {
 
   searchWithPagination() {
     this.isLoading = true;
-    this.learningService.getLearningWithPagination(this.cognomePag, this.pagination, this.page, this.pageSize).subscribe(
+    this.learningService.getLearningWithPagination(this.persona, this.pagination, this.page, this.pageSize).subscribe(
       (response) => {
         if (Array.isArray(response)) {
           this.data = response;

@@ -2,10 +2,10 @@
   <!-- Form per la ricerca -->
   <div class="search-container">
     <mat-form-field class="search-input">
-      <input matInput placeholder="ID" [(ngModel)]="id">
+      <input matInput placeholder="ID" [(ngModel)]="persona.id">
     </mat-form-field>
     <mat-form-field class="search-input">
-      <input matInput placeholder="Cognome" [(ngModel)]="cognome">
+      <input matInput placeholder="Cognome" [(ngModel)]="persona.cognome">
     </mat-form-field>
     <button mat-raised-button color="primary" class="search-button" (click)="search()">Cerca</button>
   </div>

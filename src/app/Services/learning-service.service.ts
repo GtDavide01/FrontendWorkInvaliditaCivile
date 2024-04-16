@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
+import { Persona } from '../Entities/Persona';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,13 @@ export class LearningServiceService {
     return this.ApiService.get('GetAllLearning');
   }
 
-  getLearning(id: number, cognome: string): Observable<any> {
-    return this.ApiService.get('GetLearning', { id, cognome });
+  getLearning(persona: Persona ): Observable<any> {
+    return this.ApiService.get('GetLearning', { id: persona.id, cognome: persona.cognome });
   }
 
-  getLearningWithPagination(cognome: string, pagination: boolean, page: number, pageSize: number): Observable<any> {
+  getLearningWithPagination(persona: Persona,  pagination: boolean, page: number, pageSize: number): Observable<any> {
     return this.ApiService.get('GetLearningWithPagination', {
-      cognome,
+      persona,
       pagination,
       page,
       pageSize
