@@ -70,7 +70,7 @@ export class LearningComponentComponent implements OnInit {
 
   searchWithPagination() {
     this.isLoading = true;
-    this.learningService.getLearningWithPagination(this.persona, this.pagination, this.page, this.pageSize).subscribe(
+    this.learningService.getLearningWithPagination(this.cognomePag, this.pagination, this.page, this.pageSize).subscribe(
       (response) => {
         if (Array.isArray(response)) {
           this.data = response;

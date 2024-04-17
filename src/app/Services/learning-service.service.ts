@@ -19,9 +19,9 @@ export class LearningServiceService {
     return this.ApiService.get('GetLearning', { id: persona.id, cognome: persona.cognome });
   }
 
-  getLearningWithPagination(persona: Persona,  pagination: boolean, page: number, pageSize: number): Observable<any> {
+  getLearningWithPagination(cognome: string,  pagination: boolean, page: number, pageSize: number): Observable<any> {
     return this.ApiService.get('GetLearningWithPagination', {
-      persona,
+      cognome,
       pagination,
       page,
       pageSize

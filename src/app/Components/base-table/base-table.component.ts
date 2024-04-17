@@ -11,7 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 })
 export class BaseTableComponent  implements OnChanges {
   @Input() data: any[] = [];
-  @Input() pagination: boolean = false;
+  @Input() pagination: boolean = true;
   @Input() page: number = 0;
   @Input() pageSize: number = 0;
   dataSource: MatTableDataSource<any>;

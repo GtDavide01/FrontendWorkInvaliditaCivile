@@ -18,8 +18,8 @@
     <mat-form-field class="search-input">
       <mat-label>Paginazione</mat-label>
       <mat-select [(ngModel)]="pagination">
-        <mat-option value="true">Si</mat-option>
-        <mat-option value="false">No</mat-option>
+        <mat-option [value]="true">Si</mat-option>
+        <mat-option [value]="false">No</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="search-input">
@@ -27,6 +27,7 @@
     </mat-form-field>
     <mat-form-field class="search-input">
       <input matInput placeholder="PageSize" [(ngModel)]="pageSize">
+      <!-- <input matInput placeholder="PageSize" > -->
     </mat-form-field>
     <button mat-raised-button color="primary" class="search-button" (click)="searchWithPagination()">Cerca</button>
   </div>
@@ -41,6 +42,6 @@
 
   <!-- Tabella dei dati -->
   <div *ngIf="!isLoading">
-    <app-base-table [data]="data" [page]="page" [pageSize]="pageSize" [pagination]="pagination"></app-base-table>
+    <app-base-table  [data]="data" [page]="page" [pageSize]="pageSize" [pagination]="pagination"></app-base-table>
   </div>
 </div>
